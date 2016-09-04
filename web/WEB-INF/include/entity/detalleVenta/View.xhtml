@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="DetalleVentaViewDlg" widgetVar="DetalleVentaViewDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.ViewDetalleVentaTitle}" closeOnEscape="true">
+
+            <h:form id="DetalleVentaViewForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" columnClasses="column" rendered="#{detalleVentaController.selected != null}">
+
+                        <h:outputText value="#{myBundle.ViewDetalleVentaLabel_idDetalleVenta}"/>
+                        <h:outputText value="#{detalleVentaController.selected.idDetalleVenta}" title="#{myBundle.ViewDetalleVentaTitle_idDetalleVenta}"/>
+
+                        <h:outputText value="#{myBundle.ViewDetalleVentaLabel_subTotal}"/>
+                        <h:outputText value="#{detalleVentaController.selected.subTotal}" title="#{myBundle.ViewDetalleVentaTitle_subTotal}"/>
+
+                        <h:outputText value="#{myBundle.ViewDetalleVentaLabel_cantidad}"/>
+                        <h:outputText value="#{detalleVentaController.selected.cantidad}" title="#{myBundle.ViewDetalleVentaTitle_cantidad}"/>
+
+                        <h:outputText value="#{myBundle.ViewDetalleVentaLabel_idProducto}"/>
+                        <h:outputText value="#{detalleVentaController.selected.idProducto.idProducto}"/>
+
+                        <h:outputText value="#{myBundle.ViewDetalleVentaLabel_idVenta}"/>
+                        <h:outputText value="#{detalleVentaController.selected.idVenta.idVenta}"/>
+                    </p:panelGrid>
+                    <p:commandButton value="#{myBundle.Close}" onclick="PF('DetalleVentaViewDialog').hide()"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

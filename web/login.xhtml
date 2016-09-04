@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title> Gestor de Ventas </title>
+    </h:head>
+    <h:body>
+        
+        
+        <p:growl id="growl" sticky="true" showDetail="true" life="3000"/>
+            <h:form id="loginForm">
+                <h:panelGroup id="globalContainerPanelGroup" layout="block" style="width: 100%; min-height: 100%;">
+                <p:messages autoUpdate="true"/>
+                    <p:panelGrid columns="2" style="position: absolute; top: 250px; left: 500px;">
+                        <f:facet name="header" > Inicio de Sesión </f:facet>
+                        <p:outputLabel for="username" value="Usuario" />
+                        <p:inputText id="username" value="#{loginController.username}" required="true" />
+                        
+                        <p:outputLabel for="password" value="Password" />
+                        <p:password id="password" value="#{loginController.password}" required="true" label="password"/>
+                        
+                        <f:facet name="footer">
+                            <p:commandButton icon="ui-icon-key" value="Iniciar Sesión" action="#{loginController.validateUsernamePassword()}" />
+                        </f:facet>
+                    </p:panelGrid>
+                </h:panelGroup>
+            </h:form>
+        
+    </h:body>
+</html>

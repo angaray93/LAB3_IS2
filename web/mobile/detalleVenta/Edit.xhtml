@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="DetalleVentaEditPage" lazy="true">
+        <pm:header title="#{myBundle.EditDetalleVentaTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:DetalleVentaListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="DetalleVentaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:outputPanel rendered="#{detalleVentaController.selected != null}">
+
+                        <pm:field>
+                            <h:outputLabel value="#{myBundle.EditDetalleVentaLabel_idDetalleVenta}" for="idDetalleVenta" />
+                            <h:outputText id="idDetalleVenta" value="#{detalleVentaController.selected.idDetalleVenta}" />
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditDetalleVentaLabel_subTotal}" for="subTotal" />
+                            <p:inputText id="subTotal" value="#{detalleVentaController.selected.subTotal}" title="#{myBundle.EditDetalleVentaTitle_subTotal}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditDetalleVentaLabel_cantidad}" for="cantidad" />
+                            <p:inputText id="cantidad" value="#{detalleVentaController.selected.cantidad}" title="#{myBundle.EditDetalleVentaTitle_cantidad}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditDetalleVentaLabel_idProducto}" for="idProducto" />
+                            <p:selectOneMenu id="idProducto" value="#{detalleVentaController.selected.idProducto}"  converter="productoConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{productoController.items}"
+                                               var="idProductoItem"
+                                               itemValue="#{idProductoItem}"
+                                               itemLabel="#{idProductoItem.idProducto.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.EditDetalleVentaLabel_idVenta}" for="idVenta" />
+                            <p:selectOneMenu id="idVenta" value="#{detalleVentaController.selected.idVenta}"  converter="ventaConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{ventaController.items}"
+                                               var="idVentaItem"
+                                               itemValue="#{idVentaItem}"
+                                               itemLabel="#{idVentaItem.idVenta.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{detalleVentaController.save}" value="#{myBundle.Save}" update="#{mobilePageController.updatableWidgets(component,'display,:DetalleVentaListPage:DetalleVentaListForm:datalist,:growl')}" action="#{mobilePageController.navigateWithHistory('pm:DetalleVentaListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

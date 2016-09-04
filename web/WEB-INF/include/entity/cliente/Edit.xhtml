@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="ClienteEditDlg" widgetVar="ClienteEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditClienteTitle}" closeOnEscape="true">
+
+            <h:form id="ClienteEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{clienteController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditClienteLabel_idCliente}" for="idCliente" />
+                        <h:outputText id="idCliente" value="#{clienteController.selected.idCliente}" />
+
+                        <p:outputLabel value="#{myBundle.EditClienteLabel_nombre}" for="nombre" />
+                        <p:inputText id="nombre" value="#{clienteController.selected.nombre}" title="#{myBundle.EditClienteTitle_nombre}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditClienteLabel_apellido}" for="apellido" />
+                        <p:inputText id="apellido" value="#{clienteController.selected.apellido}" title="#{myBundle.EditClienteTitle_apellido}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditClienteLabel_ruc}" for="ruc" />
+                        <p:inputText id="ruc" value="#{clienteController.selected.ruc}" title="#{myBundle.EditClienteTitle_ruc}" size="25" maxlength="25"/>
+
+                        <p:outputLabel value="#{myBundle.EditClienteLabel_direccion}" for="direccion" />
+                        <p:inputText id="direccion" value="#{clienteController.selected.direccion}" title="#{myBundle.EditClienteTitle_direccion}" size="50" maxlength="50"/>
+
+                        <p:outputLabel value="#{myBundle.EditClienteLabel_email}" for="email" />
+                        <p:inputText id="email" value="#{clienteController.selected.email}" title="#{myBundle.EditClienteTitle_email}" size="25" maxlength="25"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{clienteController.save}" value="#{myBundle.Save}" update="display,:ClienteListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('ClienteEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('ClienteEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

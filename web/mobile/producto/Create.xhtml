@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="ProductoCreatePage" lazy="true">
+        <pm:header title="#{myBundle.CreateProductoTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:ProductoListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="ProductoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{productoController.selected != null}">
+                    <p:outputPanel>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateProductoLabel_idProducto}" for="idProducto" />
+                            <p:inputText id="idProducto" value="#{productoController.selected.idProducto}" title="#{myBundle.CreateProductoTitle_idProducto}" required="true" requiredMessage="#{myBundle.CreateProductoRequiredMessage_idProducto}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateProductoLabel_nomProducto}" for="nomProducto" />
+                            <p:inputText id="nomProducto" value="#{productoController.selected.nomProducto}" title="#{myBundle.CreateProductoTitle_nomProducto}" size="20" maxlength="20"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateProductoLabel_precioUnitario}" for="precioUnitario" />
+                            <p:inputText id="precioUnitario" value="#{productoController.selected.precioUnitario}" title="#{myBundle.CreateProductoTitle_precioUnitario}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateProductoLabel_stockActual}" for="stockActual" />
+                            <p:inputText id="stockActual" value="#{productoController.selected.stockActual}" title="#{myBundle.CreateProductoTitle_stockActual}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateProductoLabel_idTipoTipoProducto}" for="idTipoTipoProducto" />
+                            <p:selectOneMenu id="idTipoTipoProducto" value="#{productoController.selected.idTipoTipoProducto}"  converter="tipoProductoConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{tipoProductoController.items}"
+                                               var="idTipoTipoProductoItem"
+                                               itemValue="#{idTipoTipoProductoItem}"
+                                               itemLabel="#{idTipoTipoProductoItem.descripcionTipo.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{productoController.saveNew}" value="#{myBundle.Save}" update="display,:ProductoListPage:ProductoListForm:datalist,:growl" action="#{mobilePageController.navigateWithHistory('pm:ProductoListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

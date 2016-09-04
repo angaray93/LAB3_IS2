@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pm="http://primefaces.org/mobile">
+
+    <pm:page id="UsuarioCreatePage" lazy="true">
+        <pm:header title="#{myBundle.CreateUsuarioTitle}">
+            <h:form>
+                <p:commandButton styleClass="ui-btn-left ui-btn-inline" value="#{myBundle.Cancel}" icon="ui-icon-arrow-l" action="#{mobilePageController.navigateBackInHistory('pm:UsuarioListPage')}"/>
+            </h:form>
+        </pm:header>
+
+        <pm:content>
+
+            <h:form id="UsuarioCreateForm">
+
+                <h:panelGroup id="display" rendered="#{usuarioController.selected != null}">
+                    <p:outputPanel>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateUsuarioLabel_codigoUsuario}" for="codigoUsuario" />
+                            <p:inputText id="codigoUsuario" value="#{usuarioController.selected.codigoUsuario}" title="#{myBundle.CreateUsuarioTitle_codigoUsuario}" required="true" requiredMessage="#{myBundle.CreateUsuarioRequiredMessage_codigoUsuario}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateUsuarioLabel_username}" for="username" />
+                            <p:inputText id="username" value="#{usuarioController.selected.username}" title="#{myBundle.CreateUsuarioTitle_username}" size="20" maxlength="20"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateUsuarioLabel_password}" for="password" />
+                            <p:inputText id="password" value="#{usuarioController.selected.password}" title="#{myBundle.CreateUsuarioTitle_password}" size="20" maxlength="20"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateUsuarioLabel_estado}" for="estado" />
+                            <p:inputText id="estado" value="#{usuarioController.selected.estado}" title="#{myBundle.CreateUsuarioTitle_estado}"/>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateUsuarioLabel_codigoRolUsuario}" for="codigoRolUsuario" />
+                            <p:selectOneMenu id="codigoRolUsuario" value="#{usuarioController.selected.codigoRolUsuario}"  converter="rolConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{rolController.items}"
+                                               var="codigoRolUsuarioItem"
+                                               itemValue="#{codigoRolUsuarioItem}"
+                                               itemLabel="#{codigoRolUsuarioItem.descripcion.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+
+                        <pm:field>
+                            <p:outputLabel value="#{myBundle.CreateUsuarioLabel_ciVendedorUsuario}" for="ciVendedorUsuario" />
+                            <p:selectOneMenu id="ciVendedorUsuario" value="#{usuarioController.selected.ciVendedorUsuario}"  converter="vendedorConverter">
+                                <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                                <f:selectItems value="#{vendedorController.items}"
+                                               var="ciVendedorUsuarioItem"
+                                               itemValue="#{ciVendedorUsuarioItem}"
+                                               itemLabel="#{ciVendedorUsuarioItem.ciVendedor.toString()}"
+                                               />
+
+                            </p:selectOneMenu>
+                        </pm:field>
+                    </p:outputPanel>
+                    <p:commandButton actionListener="#{usuarioController.saveNew}" value="#{myBundle.Save}" update="display,:UsuarioListPage:UsuarioListForm:datalist,:growl" action="#{mobilePageController.navigateWithHistory('pm:UsuarioListPage')}"/>
+
+                </h:panelGroup>
+
+            </h:form>
+
+        </pm:content>
+
+    </pm:page>
+
+</ui:composition>

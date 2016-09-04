@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <h:form id="DetalleVentaListForm">
+
+        <p:panel header="#{myBundle.ListDetalleVentaTitle}">
+            <p:contextMenu id="DetalleVentaDataTableContextMenu" for="datalist">  
+                <p:menuitem value="#{myBundle.Create}" onclick="document.getElementById('DetalleVentaListForm:createButton').click();" icon="ui-icon-plus"/>
+                <p:menuitem value="#{myBundle.View}" onclick="document.getElementById('DetalleVentaListForm:viewButton').click();" icon="ui-icon-search"/>
+                <p:menuitem value="#{myBundle.Edit}" onclick="document.getElementById('DetalleVentaListForm:editButton').click();" icon="ui-icon-pencil"/>
+                <p:menuitem value="#{myBundle.Delete}" onclick="document.getElementById('DetalleVentaListForm:deleteButton').click();" icon="ui-icon-trash"/>
+                <p:separator/>
+                <p:menuitem value="#{myBundle.DetalleVentaMenuItem_idProducto}" icon="ui-icon-search"  actionListener="#{detalleVentaController.prepareIdProducto}" update=":ProductoViewForm" oncomplete="PF('ProductoViewDialog').show()" disabled="#{empty detalleVentaController.selected.idProducto}"/>  
+                <p:menuitem value="#{myBundle.DetalleVentaMenuItem_idVenta}" icon="ui-icon-search"  actionListener="#{detalleVentaController.prepareIdVenta}" update=":VentaViewForm" oncomplete="PF('VentaViewDialog').show()" disabled="#{empty detalleVentaController.selected.idVenta}"/>  
+            </p:contextMenu>
+            <p:dataTable id="datalist"
+                         value="#{detalleVentaController.items}"
+                         lazy="false"
+                         rowKey="#{item.idDetalleVenta}"
+                         var="item"
+                         paginator="true"
+                         rows="10"
+                         rowsPerPageTemplate="10,20,30,40,50"
+                         selectionMode="single"
+                         selection="#{detalleVentaController.selected}">
+                <!--
+                         To enable Lazy Loading, please copy/replace the following lines above,
+                         and be sure to replace the word HASH with the # symbol:
+                
+                         value="HASH{detalleVentaController.lazyItems}"
+                         lazy="true"
+                         rowKey="HASH{item.idDetalleVenta}"  <<< Remove this line
+                -->
+
+
+                <p:ajax event="rowSelect"   update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DetalleVentaDataTableContextMenu" listener="#{detalleVentaController.resetParents}"/>
+                <p:ajax event="rowUnselect" update="@form:createButton,@form:viewButton,@form:editButton,@form:deleteButton,@form:DetalleVentaDataTableContextMenu" listener="#{detalleVentaController.resetParents}"/>
+                <p:ajax event="contextMenu" update="@form:createButton @form:viewButton @form:editButton @form:deleteButton" listener="#{detalleVentaController.resetParents}"/>
+                <p:ajax event="rowDblselect" onsuccess="document.getElementById('DetalleVentaListForm:viewButton').click();"/>
+
+                <p:column sortBy="#{item.idDetalleVenta}" filterBy="#{item.idDetalleVenta}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListDetalleVentaTitle_idDetalleVenta}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idDetalleVenta}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.subTotal}" filterBy="#{item.subTotal}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListDetalleVentaTitle_subTotal}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.subTotal}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.cantidad}" filterBy="#{item.cantidad}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListDetalleVentaTitle_cantidad}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.cantidad}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idProducto.idProducto}" filterBy="#{item.idProducto.idProducto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListDetalleVentaTitle_idProducto}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idProducto.idProducto}"/>
+                </p:column>
+
+
+                <p:column sortBy="#{item.idVenta.idVenta}" filterBy="#{item.idVenta.idVenta}">
+                    <f:facet name="header">
+                        <h:outputText value="#{myBundle.ListDetalleVentaTitle_idVenta}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idVenta.idVenta}"/>
+                </p:column>
+
+
+            </p:dataTable>
+
+            <p:commandButton id="createButton"                             icon="ui-icon-plus"   value="#{myBundle.Create}" actionListener="#{detalleVentaController.prepareCreate}" update=":DetalleVentaCreateForm" oncomplete="PF('DetalleVentaCreateDialog').show()"/>
+            <p:commandButton id="viewButton"   style="visibility: hidden;" icon="ui-icon-search" value="#{myBundle.View}" update=":DetalleVentaViewForm" oncomplete="PF('DetalleVentaViewDialog').show()" disabled="#{empty detalleVentaController.selected}"/>
+            <p:commandButton id="editButton"   style="visibility: hidden;" icon="ui-icon-pencil" value="#{myBundle.Edit}" update=":DetalleVentaEditForm" oncomplete="PF('DetalleVentaEditDialog').show()" disabled="#{empty detalleVentaController.selected}"/>
+            <p:commandButton id="deleteButton" style="visibility: hidden;" icon="ui-icon-trash"  value="#{myBundle.Delete}" actionListener="#{detalleVentaController.delete}" update=":growl,datalist" disabled="#{empty detalleVentaController.selected}">
+                <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmDeleteMessage}" icon="ui-icon-alert"/>
+            </p:commandButton>
+
+        </p:panel>
+        <ui:include src="/WEB-INF/include/confirmation.xhtml"/>
+    </h:form>
+
+</ui:composition>

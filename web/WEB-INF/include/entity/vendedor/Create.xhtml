@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VendedorCreateDlg" widgetVar="VendedorCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateVendedorTitle}" closeOnEscape="true">
+
+            <h:form id="VendedorCreateForm">
+
+                <h:panelGroup id="display" rendered="#{vendedorController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateVendedorLabel_ciVendedor}" for="ciVendedor" />
+                        <p:inputText id="ciVendedor" value="#{vendedorController.selected.ciVendedor}" title="#{myBundle.CreateVendedorTitle_ciVendedor}" required="true" requiredMessage="#{myBundle.CreateVendedorRequiredMessage_ciVendedor}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateVendedorLabel_nomVendedor}" for="nomVendedor" />
+                        <p:inputText id="nomVendedor" value="#{vendedorController.selected.nomVendedor}" title="#{myBundle.CreateVendedorTitle_nomVendedor}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.CreateVendedorLabel_apeVendedor}" for="apeVendedor" />
+                        <p:inputText id="apeVendedor" value="#{vendedorController.selected.apeVendedor}" title="#{myBundle.CreateVendedorTitle_apeVendedor}" size="20" maxlength="20"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{vendedorController.saveNew}" value="#{myBundle.Save}" update="display,:VendedorListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('VendedorCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('VendedorCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

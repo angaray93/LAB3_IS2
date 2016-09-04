@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="UsuarioEditDlg" widgetVar="UsuarioEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditUsuarioTitle}" closeOnEscape="true">
+
+            <h:form id="UsuarioEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{usuarioController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditUsuarioLabel_codigoUsuario}" for="codigoUsuario" />
+                        <h:outputText id="codigoUsuario" value="#{usuarioController.selected.codigoUsuario}" />
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_username}" for="username" />
+                        <p:inputText id="username" value="#{usuarioController.selected.username}" title="#{myBundle.EditUsuarioTitle_username}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_password}" for="password" />
+                        <p:inputText id="password" value="#{usuarioController.selected.password}" title="#{myBundle.EditUsuarioTitle_password}" size="20" maxlength="20"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_estado}" for="estado" />
+                        <p:inputText id="estado" value="#{usuarioController.selected.estado}" title="#{myBundle.EditUsuarioTitle_estado}"/>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_codigoRolUsuario}" for="codigoRolUsuario" />
+                        <p:selectOneMenu id="codigoRolUsuario" value="#{usuarioController.selected.codigoRolUsuario}"  converter="rolConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{rolController.items}"
+                                           var="codigoRolUsuarioItem"
+                                           itemValue="#{codigoRolUsuarioItem}"
+                                           itemLabel="#{codigoRolUsuarioItem.descripcion.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditUsuarioLabel_ciVendedorUsuario}" for="ciVendedorUsuario" />
+                        <p:selectOneMenu id="ciVendedorUsuario" value="#{usuarioController.selected.ciVendedorUsuario}"  converter="vendedorConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{vendedorController.items}"
+                                           var="ciVendedorUsuarioItem"
+                                           itemValue="#{ciVendedorUsuarioItem}"
+                                           itemLabel="#{ciVendedorUsuarioItem.ciVendedor.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{usuarioController.save}" value="#{myBundle.Save}" update="display,:UsuarioListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('UsuarioEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('UsuarioEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

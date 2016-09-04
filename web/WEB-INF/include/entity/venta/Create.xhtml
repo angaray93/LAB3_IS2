@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VentaCreateDlg" widgetVar="VentaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateVentaTitle}" closeOnEscape="true">
+
+            <h:form id="VentaCreateForm">
+
+                <h:panelGroup id="display" rendered="#{ventaController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel rendered="false" value="#{myBundle.CreateVentaLabel_idVenta}" for="idVenta" />
+                        <p:inputText rendered="false" id="idVenta" value="#{ventaController.selected.idVenta}" title="#{myBundle.CreateVentaTitle_idVenta}" required="true" requiredMessage="#{myBundle.CreateVentaRequiredMessage_idVenta}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateVentaLabel_fechaVenta}" for="fechaVenta" />
+                        <p:calendar id="fechaVenta" pattern="MM/dd/yyyy" value="#{ventaController.selected.fechaVenta}" title="#{myBundle.CreateVentaTitle_fechaVenta}"  showOn="button"/>
+
+                        <p:outputLabel value="#{myBundle.CreateVentaLabel_totalVenta}" for="totalVenta" />
+                        <p:inputText id="totalVenta" value="#{ventaController.selected.totalVenta}" title="#{myBundle.CreateVentaTitle_totalVenta}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateVentaLabel_idCliente}" for="idCliente" />
+                        <p:selectOneMenu id="idCliente" value="#{ventaController.selected.idCliente}"  converter="clienteConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{clienteController.items}"
+                                           var="idClienteItem"
+                                           itemValue="#{idClienteItem}"
+                                           itemLabel="#{idClienteItem.idCliente.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.CreateVentaLabel_ciVendedor}" for="ciVendedor" />
+                        <p:selectOneMenu id="ciVendedor" value="#{ventaController.selected.ciVendedor}"  converter="vendedorConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{vendedorController.items}"
+                                           var="ciVendedorItem"
+                                           itemValue="#{ciVendedorItem}"
+                                           itemLabel="#{ciVendedorItem.ciVendedor.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ventaController.saveNew}" value="#{myBundle.Save}" update="display,:VentaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('VentaCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('VentaCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

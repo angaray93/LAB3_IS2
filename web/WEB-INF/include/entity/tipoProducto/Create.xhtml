@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="TipoProductoCreateDlg" widgetVar="TipoProductoCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{myBundle.CreateTipoProductoTitle}" closeOnEscape="true">
+
+            <h:form id="TipoProductoCreateForm">
+
+                <h:panelGroup id="display" rendered="#{tipoProductoController.selected != null}">
+                    <p:panelGrid columns="2" columnClasses="column">
+
+                        <p:outputLabel value="#{myBundle.CreateTipoProductoLabel_idTipo}" for="idTipo" />
+                        <p:inputText id="idTipo" value="#{tipoProductoController.selected.idTipo}" title="#{myBundle.CreateTipoProductoTitle_idTipo}" required="true" requiredMessage="#{myBundle.CreateTipoProductoRequiredMessage_idTipo}"/>
+
+                        <p:outputLabel value="#{myBundle.CreateTipoProductoLabel_descripcionTipo}" for="descripcionTipo" />
+                        <p:inputText id="descripcionTipo" value="#{tipoProductoController.selected.descripcionTipo}" title="#{myBundle.CreateTipoProductoTitle_descripcionTipo}" size="20" maxlength="20"/>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{tipoProductoController.saveNew}" value="#{myBundle.Save}" update="display,:TipoProductoListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('TipoProductoCreateDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmCreateMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('TipoProductoCreateDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

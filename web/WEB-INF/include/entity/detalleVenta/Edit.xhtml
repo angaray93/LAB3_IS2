@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <p:dialog id="DetalleVentaEditDlg" widgetVar="DetalleVentaEditDialog" modal="true" resizable="false"  appendTo="@(body)" header="#{myBundle.EditDetalleVentaTitle}" closeOnEscape="true">
+
+            <h:form id="DetalleVentaEditForm">
+
+                <h:panelGroup id="display">
+                    <p:panelGrid  columns="2" columnClasses="column" rendered="#{detalleVentaController.selected != null}">
+
+
+                        <h:outputLabel value="#{myBundle.EditDetalleVentaLabel_idDetalleVenta}" for="idDetalleVenta" />
+                        <h:outputText id="idDetalleVenta" value="#{detalleVentaController.selected.idDetalleVenta}" />
+
+                        <p:outputLabel value="#{myBundle.EditDetalleVentaLabel_subTotal}" for="subTotal" />
+                        <p:inputText id="subTotal" value="#{detalleVentaController.selected.subTotal}" title="#{myBundle.EditDetalleVentaTitle_subTotal}"/>
+
+                        <p:outputLabel value="#{myBundle.EditDetalleVentaLabel_cantidad}" for="cantidad" />
+                        <p:inputText id="cantidad" value="#{detalleVentaController.selected.cantidad}" title="#{myBundle.EditDetalleVentaTitle_cantidad}"/>
+
+                        <p:outputLabel value="#{myBundle.EditDetalleVentaLabel_idProducto}" for="idProducto" />
+                        <p:selectOneMenu id="idProducto" value="#{detalleVentaController.selected.idProducto}"  converter="productoConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{productoController.items}"
+                                           var="idProductoItem"
+                                           itemValue="#{idProductoItem}"
+                                           itemLabel="#{idProductoItem.idProducto.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+
+                        <p:outputLabel value="#{myBundle.EditDetalleVentaLabel_idVenta}" for="idVenta" />
+                        <p:selectOneMenu id="idVenta" value="#{detalleVentaController.selected.idVenta}"  converter="ventaConverter">
+                            <f:selectItem itemLabel="#{myBundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{ventaController.items}"
+                                           var="idVentaItem"
+                                           itemValue="#{idVentaItem}"
+                                           itemLabel="#{idVentaItem.idVenta.toString()}"
+                                           />
+
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{detalleVentaController.save}" value="#{myBundle.Save}" update="display,:DetalleVentaListForm:datalist,:growl" oncomplete="handleSubmit(xhr,status,args,PF('DetalleVentaEditDialog'));">
+                        <p:confirm header="#{myBundle.ConfirmationHeader}" message="#{myBundle.ConfirmEditMessage}" icon="ui-icon-alert"/>
+                    </p:commandButton>
+                    <p:commandButton value="#{myBundle.Cancel}" oncomplete="PF('DetalleVentaEditDialog').hide()" update="display" process="@this" immediate="true" resetValues="true"/>
+                </h:panelGroup>
+
+            </h:form>
+
+        </p:dialog>
+
+    </ui:composition>
+
+</html>

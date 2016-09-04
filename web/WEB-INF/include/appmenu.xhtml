@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+        <h:form id="menuForm">
+            <p:menubar>
+                <p:menuitem value="#{myBundle.Home}" outcome="/index" icon="ui-icon-home"/>
+                <p:submenu label="#{myBundle.Maintenance}">
+                    <p:menuitem value="#{myBundle.ClienteHeading}..." outcome="/entity/cliente/index" />
+                    <p:menuitem value="#{myBundle.DetalleVentaHeading}..." outcome="/entity/detalleVenta/index" />
+                    <p:menuitem value="#{myBundle.ProductoHeading}..." outcome="/entity/producto/index" />
+                    <p:menuitem value="#{myBundle.RolHeading}..." outcome="/entity/rol/index" />
+                    <p:menuitem value="#{myBundle.TipoProductoHeading}..." outcome="/entity/tipoProducto/index" />
+                    <p:menuitem value="#{myBundle.UsuarioHeading}..." outcome="/entity/usuario/index" />
+                    <p:menuitem value="#{myBundle.VendedorHeading}..." outcome="/entity/vendedor/index" />
+                    <p:menuitem value="#{myBundle.VentaHeading}..." outcome="/entity/venta/index" />
+                </p:submenu>
+                <p:submenu label="Ventas">
+                    <p:menuitem value="Agregar ventas" outcome="/view/AgregarVentas" />
+                </p:submenu>
+                <p:menuitem value="#{myBundle.Mobile}" outcome="/mobile/index" icon="ui-icon-signal"/>
+                <f:facet name="options">
+                    <p:commandButton icon="ui-icon-extlink" action="/login.xhtml?faces-redirect=true" value="Cerrar Sesión"/>
+                </f:facet>
+                
+                
+                
+                    
+                
+                
+            </p:menubar>
+        </h:form>
+    </ui:composition>
+</html>

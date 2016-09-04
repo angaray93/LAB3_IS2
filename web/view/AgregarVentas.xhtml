@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/WEB-INF/include/template.xhtml">
+        <ui:define name="title">
+                  <h:outputText value="Agregar Ventas"></h:outputText>
+        </ui:define>
+        <ui:define name="body">
+            
+            <p:growl id="msj" autoUpdate="true" showDetail="true"/>
+            
+            <h:form id="AddVentasForm">
+               
+                    <p:panel header="Nueva Venta">
+                        <h:panelGrid columns="4" cellpadding="5">
+                                <h:outputText value="Nro de Venta:" />
+                                <h:outputText id="nroVenta" value="#{AgregarVentasController.nroVenta}" />
+                                <h:outputText value="Cliente:" />
+                                <h:selectOneMenu id="comboCliente" value="#{AgregarVentasController.idCliente}" converter="omnifaces.SelectItemsConverter" >
+                                    <f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{AgregarVentasController.clienteList}" 
+                                                   var="clienteList" itemLabel="#{clienteList.nombre} #{clienteList.apellido}" 
+                                                   itemValue="#{clienteList}" />
+                                </h:selectOneMenu>    
+                                    <h:outputText value="Fecha:" />
+                                    <h:outputText id="fechaVenta" value="#{AgregarVentasController.fechaVenta}" />
+                                    <h:outputText value="Vendedor:" />
+                                <h:selectOneMenu id="comboVendedor" value="#{AgregarVentasController.ciVendedor}" converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{AgregarVentasController.vendedorList}" 
+                                                   var="vendedorList" itemLabel="#{vendedorList.nomVendedor} #{vendedorList.apeVendedor}" 
+                                                   itemValue="#{vendedorList}" />
+                                </h:selectOneMenu>
+                        </h:panelGrid>
+                        
+                        <p:panel header="Agregar Productos">
+                            <h:panelGrid columns="5" cellpadding="5">
+                                <h.outputText value="Producto: " />
+                                <h:selectOneMenu id="comboProducto" value="#{AgregarVentasController.producto}" converter="omnifaces.SelectItemsConverter">
+                                    <f:selectItem itemLabel="Seleccione" itemValue="" noSelectionOption="true"/>
+                                    <f:selectItems value="#{AgregarVentasController.productoList}" 
+                                                   var="ProductoList" itemLabel="#{ProductoList.nomProducto}" 
+                                                   itemValue="#{ProductoList}" />
+                                </h:selectOneMenu>
+                                <h:outputLabel value="Cantidad: " />
+                                <p:spinner   value="#{AgregarVentasController.c}" min="1" size="2"/>
+                                
+                                <p:commandButton value="Agregar Producto" actionListener="#{AgregarVentasController.agregarProducto()}" update="tablaProducto" />
+                            </h:panelGrid>         
+                            <p:dataTable id="tablaProducto" value="#{AgregarVentasController.detalleVentaList}" var="productoList" >
+                                    <f:facet name="header"> Detalle Venta </f:facet>
+                                    
+                                    <p:column headerText="Producto">
+                                        <h:outputLabel value="#{productoList.idProducto.nomProducto}" />
+                                    </p:column>
+                                    <p:column headerText="Precio">
+                                        <h:outputLabel value="#{productoList.idProducto.precioUnitario}" />
+                                    </p:column>
+                                    <p:column headerText="Cantidad">
+                                        <h:outputLabel value="#{productoList.cantidad}" />
+                                    </p:column>
+                                    <p:column headerText="Monto">
+                                        <h:outputLabel value="Gs. #{productoList.subTotal}" />
+                                    </p:column>
+                                    <p:column headerText="Accion">
+                                        <p:commandButton value="Borrar" actionListener="#{AgregarVentasController.Borrar(productoList)}" update="tablaProducto" />
+                                    </p:column>
+
+                                    <p:columnGroup type="footer">
+                                        <p:row>
+                                            <p:column colspan="3" style="text-align:right" footerText="Total:" />
+                                            <p:column footerText="Gs. #{AgregarVentasController.montoTotal()}" />
+                                        </p:row>
+                                    </p:columnGroup>
+                                </p:dataTable>
+                            
+                             <h:panelGrid columns="5" cellpadding="5">
+                                <f:facet name="footer">
+                                    <p:commandButton value="Registrar Venta" actionListener="#{AgregarVentasController.registrar()}" 
+                                                     action="/view/AgregarVentas.xhtml?faces-redirect=true" />
+                                    <p:commandButton action="/index.xhtml?faces-redirect=true" value="Cancelar Venta"/>
+                                    
+                                </f:facet>
+                            </h:panelGrid>
+                            
+                        </p:panel>
+                        
+                    </p:panel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+
